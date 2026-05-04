@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | Tech Place Store — Assistência Técnica Premium</title>
+    <meta name="description"
+        content="Conheça a Tech Place Store. Nossa história, missão e valores. Mais de 2.000 aparelhos consertados com transparência e qualidade garantida.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* ============================================================
+           DESIGN TOKENS
+        ============================================================ */
+        :root {
+            --bg-void:    #050505;
+            --bg-base:    #0A0A0A;
+            --bg-raised:  #111111;
+            --bg-card:    #181818;
+            --bg-border:  rgba(255,255,255,0.07);
+            --bg-border-hover: rgba(255,255,255,0.16);
+            --white:      #FFFFFF;
+            --gray-50:    #F9FAFB;
+            --gray-100:   #F3F4F6;
+            --gray-200:   #E5E7EB;
+            --gray-300:   #D1D5DB;
+            --gray-400:   #9CA3AF;
+            --gray-500:   #6B7280;
+            --gray-600:   #4B5563;
+            --dark-text:  #0A0A0A;
+            --accent:     #E5E7EB;
+            --whatsapp:   #25D366;
+            --radius-sm:  8px;
+            --radius-md:  16px;
+            --radius-lg:  24px;
+            --radius-pill:9999px;
+            --shadow-md:  0 8px 24px rgba(0,0,0,0.5);
+            --shadow-lg:  0 20px 60px rgba(0,0,0,0.6);
+            --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+            --dur-fast:   150ms;
+            --dur-base:   250ms;
+            --dur-slow:   400ms;
+        }
+
+        /* ============================================================
+           RESET & BASE
+        ============================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        h1,h2,h3,h4,h5,h6 { color: var(--white); font-weight: 700; line-height: 1.15; }
+        a { text-decoration: none; color: inherit; transition: all var(--dur-base) var(--ease-out); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* ============================================================
+           SCROLL REVEAL
+        ============================================================ */
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        [data-delay="1"] { transition-delay: 0.1s; }
+        [data-delay="2"] { transition-delay: 0.2s; }
+        [data-delay="3"] { transition-delay: 0.3s; }
+        [data-delay="4"] { transition-delay: 0.4s; }
+
+        .highlight { color: var(--accent); }
+
+        /* ============================================================
+           BUTTONS
+        ============================================================ */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 15px 32px; border-radius: var(--radius-pill);
+            font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; border: none; transition: all var(--dur-base) var(--ease-out);
+            text-transform: uppercase; letter-spacing: 0.6px; position: relative; overflow: hidden;
+        }
+        .btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background var(--dur-fast); }
+        .btn:hover::after { background: rgba(255,255,255,0.08); }
+        .btn-primary { background-color: var(--white); color: var(--dark-text); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.18); }
+        .btn-nav { padding: 10px 22px; font-size: 0.82rem; }
+
+        /* ============================================================
+           BADGE
+        ============================================================ */
+        .badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            color: var(--gray-300); padding: 5px 14px; border-radius: var(--radius-pill);
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 1.2px;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .badge i { font-size: 0.95rem; color: var(--white); }
+
+        /* ============================================================
+           SECTION HEADER
+        ============================================================ */
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-label { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+        .section-header h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; letter-spacing: -0.5px; }
+        .section-header p { font-size: 1.05rem; color: var(--gray-400); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+        /* ============================================================
+           NAVBAR
+        ============================================================ */
+        .navbar {
+            position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1160px; z-index: 900;
+            border-radius: var(--radius-lg); background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--bg-border); padding: 14px 28px;
+            transition: all var(--dur-slow) var(--ease-out);
+        }
+        .navbar.scrolled { background: rgba(8,8,8,0.95); box-shadow: var(--shadow-md); border-color: rgba(255,255,255,0.10); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 42px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a:not(.btn) { color: var(--gray-400); font-weight: 500; font-size: 0.9rem; position: relative; }
+        .nav-links a:not(.btn)::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px; background: var(--white); transition: width var(--dur-base) var(--ease-out); }
+        .nav-links a:not(.btn):hover { color: var(--white); }
+        .nav-links a:not(.btn):hover::after { width: 100%; }
+        .nav-links a.active:not(.btn) { color: var(--white); }
+        .nav-links a.active:not(.btn)::after { width: 100%; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.7rem; cursor: pointer; padding: 4px; }
+
+        /* ============================================================
+           PAGE HERO
+        ============================================================ */
+        .page-hero {
+            padding: 160px 0 80px;
+            background: var(--bg-base);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            top: -80px; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 400px;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: -1.5px; margin-bottom: 16px; }
+        .page-hero p { font-size: 1.1rem; color: var(--gray-400); max-width: 520px; margin: 0 auto; font-weight: 300; line-height: 1.75; }
+
+        /* ============================================================
+           NOSSA HISTÓRIA
+        ============================================================ */
+        .history { padding: 100px 0; background: var(--bg-base); }
+        .history-content { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+        .history-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin-bottom: 18px; letter-spacing: -0.5px; }
+        .history-text p { color: var(--gray-400); font-size: 1.05rem; margin-bottom: 20px; line-height: 1.75; }
+        .history-text p:last-child { margin-bottom: 0; }
+        .history-img { width: 100%; height: 480px; object-fit: cover; border-radius: var(--radius-lg); }
+
+        /* ============================================================
+           MISSÃO VISÃO VALORES
+        ============================================================ */
+        .values { padding: 100px 0; background: var(--white); color: var(--dark-text); }
+        .values .section-header h2 { color: var(--dark-text); }
+        .values .section-label { color: var(--gray-500); }
+        .values .section-header p { color: var(--gray-600); }
+
+        .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .value-card {
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md); padding: 40px 32px; text-align: center;
+            transition: all var(--dur-slow) var(--ease-out);
+        }
+        .value-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); border-color: var(--gray-300); }
+        .value-icon {
+            width: 64px; height: 64px; background: var(--dark-text); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: var(--white); margin: 0 auto 24px;
+        }
+        .value-card h3 { font-size: 1.2rem; color: var(--dark-text); margin-bottom: 12px; }
+        .value-card p { color: var(--gray-600); font-size: 0.92rem; line-height: 1.65; }
+
+        /* ============================================================
+           STATS STRIP
+        ============================================================ */
+        .stats-strip { background: var(--bg-raised); border-top: 1px solid var(--bg-border); border-bottom: 1px solid var(--bg-border); padding: 36px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+        .stat-item { text-align: center; padding: 0 24px; position: relative; }
+        .stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 10%; bottom: 10%; width: 1px; background: var(--bg-border); }
+        .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 6px; letter-spacing: -1px; }
+        .stat-label { font-size: 0.8rem; color: var(--gray-500); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; }
+
+        /* ============================================================
+           DIFERENCIAIS
+        ============================================================ */
+        .diferenciais { padding: 100px 0; background: var(--bg-base); }
+        .diferenciais-content { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+        .diferenciais-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin-bottom: 18px; letter-spacing: -0.5px; }
+        .diferenciais-text > p { color: var(--gray-400); font-size: 1.05rem; margin-bottom: 40px; line-height: 1.75; }
+
+        .features-list { display: flex; flex-direction: column; gap: 20px; }
+        .features-list li { display: flex; align-items: flex-start; gap: 16px; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--bg-border); background: var(--bg-raised); transition: border-color var(--dur-base), background var(--dur-base); }
+        .features-list li:hover { border-color: var(--bg-border-hover); background: var(--bg-card); }
+        .feature-icon { width: 44px; height: 44px; min-width: 44px; background: rgba(255,255,255,0.05); border: 1px solid var(--bg-border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 1.3rem; }
+        .feature-text strong { display: block; color: var(--white); font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .feature-text p { color: var(--gray-500); font-size: 0.88rem; margin: 0; line-height: 1.6; }
+
+        .diferenciais-img img { width: 100%; height: 480px; object-fit: cover; border-radius: var(--radius-lg); }
+
+        /* ============================================================
+           CTA BANNER
+        ============================================================ */
+        .cta-banner { padding: 80px 0; background: var(--bg-raised); border-top: 1px solid var(--bg-border); border-bottom: 1px solid var(--bg-border); }
+        .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+        .cta-text h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.5px; margin-bottom: 8px; }
+        .cta-text p { color: var(--gray-400); font-size: 1rem; }
+
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        .footer { background: var(--bg-void); border-top: 1px solid var(--bg-border); padding: 80px 0 24px; color: var(--gray-400); }
+        .footer-content { display: grid; grid-template-columns: 2.2fr 1fr 1fr; gap: 52px; margin-bottom: 60px; }
+        .footer h3 { color: var(--white); font-size: 1.1rem; margin-bottom: 6px; }
+        .footer h4 { color: var(--white); font-size: 0.95rem; font-weight: 600; margin-bottom: 18px; }
+        .footer-info > p { font-size: 0.9rem; margin-bottom: 24px; color: var(--gray-500); }
+        .contact-details { display: flex; flex-direction: column; gap: 12px; }
+        .contact-details p { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--gray-500); }
+        .contact-details i { color: var(--gray-300); font-size: 1.1rem; flex-shrink: 0; }
+        .footer-links ul { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: 0.9rem; color: var(--gray-500); transition: color var(--dur-fast); }
+        .footer-links a:hover { color: var(--white); }
+        .social-icons { display: flex; gap: 10px; }
+        .social-icons a { width: 40px; height: 40px; background: var(--bg-raised); border: 1px solid var(--bg-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gray-400); font-size: 1.15rem; transition: all var(--dur-base) var(--ease-out); }
+        .social-icons a:hover { background: var(--white); color: var(--dark-text); border-color: var(--white); transform: translateY(-2px); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--bg-border); font-size: 0.82rem; color: var(--gray-600); }
+
+        /* ============================================================
+           FLOATING WHATSAPP
+        ============================================================ */
+        .floating-whatsapp { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: var(--whatsapp); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 20px rgba(37,211,102,0.45); z-index: 800; transition: all var(--dur-base) var(--ease-spring); }
+        .floating-whatsapp:hover { transform: scale(1.12); background: #1EBE5D; }
+
+        /* ============================================================
+           MOBILE MENU
+        ============================================================ */
+        @media (max-width: 900px) {
+            .nav-links { position: fixed; top: 0; right: -100%; width: 78%; max-width: 340px; height: 100vh; background: #050505; flex-direction: column; align-items: flex-start; padding: 100px 32px 32px; box-shadow: -12px 0 40px rgba(0,0,0,0.85); transition: right 0.35s var(--ease-out); z-index: 850; gap: 0; }
+            .nav-links.active { right: 0; }
+            .nav-links a:not(.btn-nav) { font-size: 1.1rem; padding: 14px 0; width: 100%; display: block; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--gray-300); }
+            .nav-links a:not(.btn-nav)::after { display: none; }
+            .btn-nav { width: 100%; margin-top: 20px; text-align: center; justify-content: center; }
+            .mobile-menu-btn { display: flex; align-items: center; }
+            .navbar { top: 0; border-radius: 0; width: 100%; left: 0; transform: none; border-left: none; border-right: none; border-top: none; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 992px) {
+            .history-content, .diferenciais-content { grid-template-columns: 1fr; text-align: center; }
+            .diferenciais-text > p { max-width: 100%; }
+            .diferenciais-img { order: -1; }
+            .values-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+            .cta-inner { text-align: center; justify-content: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:nth-child(2)::after { display: none; }
+            .footer-content { grid-template-columns: 1fr; gap: 36px; }
+            .history-img { height: 320px; }
+            .diferenciais-img img { height: 320px; }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-item::after { display: none !important; }
+            .history-img, .diferenciais-img img { height: 220px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/seunumerodeexemplo" class="floating-whatsapp" target="_blank"
+        aria-label="Fale conosco no WhatsApp">
+        <i class="ph ph-whatsapp-logo"></i>
+    </a>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar" id="navbar">
+        <div class="nav-content container">
+            <a href="index-v2.html" class="logo" aria-label="Tech Place Store">
+                <img src="logo_techplace.svg" alt="Tech Place Store">
+            </a>
+            <nav class="nav-links" id="navLinks" aria-label="Menu principal">
+                <a href="index-v2.html">Início</a>
+                <a href="sobre.html" class="active">A Empresa</a>
+                <a href="servicos.html">Serviços</a>
+                <a href="index-v2.html#depoimentos">Avaliações</a>
+                <a href="index-v2.html#contato">Contato</a>
+                <a href="https://wa.me/seunumerodeexemplo" class="btn btn-primary btn-nav" target="_blank">
+                    Fazer Orçamento
+                </a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu" aria-expanded="false">
+                <i class="ph ph-list" id="menuIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== PAGE HERO ===== -->
+    <section class="page-hero">
+        <div class="container">
+            <span class="badge reveal" data-delay="1">
+                <i class="ph ph-storefront"></i>
+                Nossa história
+            </span>
+            <h1 class="reveal" data-delay="2">
+                Conheça a <span class="highlight">Tech Place Store</span>
+            </h1>
+            <p class="reveal" data-delay="3">
+                Mais de 2.000 aparelhos consertados com qualidade, transparência e o compromisso de devolver sua conexão com o mundo.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== NOSSA HISTÓRIA ===== -->
+    <section class="history">
+        <div class="container history-content">
+            <div class="history-text reveal-left">
+                <span class="section-label" style="display:block; margin-bottom:12px;">Nossa trajetória</span>
+                <h2>De uma ideia a uma referência em <span class="highlight">assistência técnica</span></h2>
+                <p>A Tech Place Store nasceu da paixão por tecnologia e da vontade de oferecer um serviço que os próprios fundadores gostariam de encontrar: transparente, rápido e de qualidade real.</p>
+                <p>Começamos como uma pequena bancada de reparo e hoje somos a referência da região quando o assunto é cuidar do seu smartphone com responsabilidade e expertise.</p>
+                <p>Cada aparelho que passa pelas nossas mãos recebe atenção individual. Acreditamos que um celular não é apenas um objeto — é a sua conexão com o trabalho, a família e o mundo.</p>
+            </div>
+            <div class="reveal-right" data-delay="2">
+                <img src="foto_fachada.png" alt="Fachada da Tech Place Store" class="history-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MISSÃO VISÃO VALORES ===== -->
+    <section class="values">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Quem somos</span>
+                <h2>Missão, Visão e <span style="color:var(--dark-text)">Valores</span></h2>
+                <p>Os princípios que guiam cada reparo e cada atendimento na Tech Place Store.</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card reveal" data-delay="1">
+                    <div class="value-icon"><i class="ph ph-target"></i></div>
+                    <h3>Missão</h3>
+                    <p>Devolver a conexão das pessoas com o que importa, por meio de reparos rápidos, honestos e com qualidade garantida.</p>
+                </div>
+                <div class="value-card reveal" data-delay="2">
+                    <div class="value-icon"><i class="ph ph-eye"></i></div>
+                    <h3>Visão</h3>
+                    <p>Ser a assistência técnica mais confiável da região, reconhecida pela excelência no atendimento e pela durabilidade dos serviços.</p>
+                </div>
+                <div class="value-card reveal" data-delay="3">
+                    <div class="value-icon"><i class="ph ph-heart"></i></div>
+                    <h3>Valores</h3>
+                    <p>Transparência, agilidade, respeito ao cliente e compromisso com a qualidade em cada detalhe do nosso trabalho.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <div class="stats-strip">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal" data-delay="1">
+                    <div class="stat-number" data-count="2000">0</div>
+                    <div class="stat-label">Aparelhos Consertados</div>
+                </div>
+                <div class="stat-item reveal" data-delay="2">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Clientes Satisfeitos</div>
+                </div>
+                <div class="stat-item reveal" data-delay="3">
+                    <div class="stat-number">40min</div>
+                    <div class="stat-label">Tempo Médio de Reparo</div>
+                </div>
+                <div class="stat-item reveal" data-delay="4">
+                    <div class="stat-number">5★</div>
+                    <div class="stat-label">Avaliação no Google</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DIFERENCIAIS ===== -->
+    <section class="diferenciais">
+        <div class="container diferenciais-content">
+            <div class="diferenciais-text reveal-left">
+                <span class="section-label" style="display:block; margin-bottom:12px;">Por que nos escolher</span>
+                <h2>Por que a <span class="highlight">Tech Place Store</span> é a sua melhor escolha?</h2>
+                <p>Aliamos tecnologia e profissionalismo para entregar um conserto impecável. Nossos técnicos são especializados e apaixonados pelo que fazem.</p>
+                <ul class="features-list">
+                    <li>
+                        <div class="feature-icon"><i class="ph ph-shield-check"></i></div>
+                        <div class="feature-text">
+                            <strong>Transparência Total</strong>
+                            <p>Explicamos exatamente o que seu aparelho tem antes de qualquer reparo.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><i class="ph ph-clock"></i></div>
+                        <div class="feature-text">
+                            <strong>Agilidade Real</strong>
+                            <p>Focamos em rapidez sem comprometer a qualidade. A maioria dos reparos em 40 minutos.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><i class="ph ph-star"></i></div>
+                        <div class="feature-text">
+                            <strong>Qualidade Premium</strong>
+                            <p>Utilizamos apenas componentes de primeira linha para garantir durabilidade.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><i class="ph ph-lock-simple"></i></div>
+                        <div class="feature-text">
+                            <strong>Seus Dados Seguros</strong>
+                            <p>Nenhum dado pessoal é acessado durante o reparo. Privacidade 100% garantida.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="diferenciais-img reveal-right" data-delay="2">
+                <img src="foto_hero.jpeg" alt="Técnico realizando reparo na Tech Place Store">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-inner reveal">
+                <div class="cta-text">
+                    <h2>Seu aparelho com problema?<br><span class="highlight">A gente resolve.</span></h2>
+                    <p>Fale agora com um técnico especializado via WhatsApp.</p>
+                </div>
+                <a href="https://wa.me/seunumerodeexemplo" class="btn btn-primary" target="_blank"
+                    style="flex-shrink:0; font-size:1rem; padding: 18px 38px;">
+                    <i class="ph ph-whatsapp-logo"></i>
+                    Chamar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="contato" class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>Tech Place Store</h3>
+                <p>Sua referência em assistência técnica e acessórios mobile.</p>
+                <div class="contact-details">
+                    <p><i class="ph ph-map-pin"></i> Av. Tecnológica, 123 - Centro, Cidade - UF</p>
+                    <p><i class="ph ph-phone"></i> (XX) 9XXXX-XXXX</p>
+                    <p><i class="ph ph-envelope-simple"></i> contato@techplacestore.com.br</p>
+                    <p><i class="ph ph-clock"></i> Seg a Sex: 08h às 18h | Sáb: 08h às 12h</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index-v2.html">Início</a></li>
+                    <li><a href="servicos.html">Nossos Serviços</a></li>
+                    <li><a href="sobre.html">Quem Somos</a></li>
+                    <li><a href="index-v2.html#depoimentos">Avaliações</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Acompanhe-nos</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Tech Place Store. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => observer.observe(el));
+
+        function animateCounter(el, target, duration = 1600) {
+            let start = 0;
+            const step = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += step;
+                if (start >= target) { start = target; clearInterval(timer); }
+                el.textContent = Math.floor(start).toLocaleString('pt-BR') + '+';
+            }, 16);
+        }
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count, 10);
+                    if (!isNaN(target)) animateCounter(el, target);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+        mobileMenuBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('active');
+            menuIcon.className = isOpen ? 'ph ph-x' : 'ph ph-list';
+            mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.className = 'ph ph-list';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                navLinks.classList.remove('active');
+                menuIcon.className = 'ph ph-list';
+                document.body.style.overflow = '';
+            }
+        });
+
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços | Tech Place Store — Conserto de Celulares</title>
+    <meta name="description"
+        content="Troca de tela, bateria, conector, software e mais. Conheça todos os serviços da Tech Place Store. Peças certificadas, garantia de 90 dias e reparo em 40 minutos.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* ============================================================
+           DESIGN TOKENS
+        ============================================================ */
+        :root {
+            --bg-void:    #050505;
+            --bg-base:    #0A0A0A;
+            --bg-raised:  #111111;
+            --bg-card:    #181818;
+            --bg-border:  rgba(255,255,255,0.07);
+            --bg-border-hover: rgba(255,255,255,0.16);
+            --white:      #FFFFFF;
+            --gray-50:    #F9FAFB;
+            --gray-100:   #F3F4F6;
+            --gray-200:   #E5E7EB;
+            --gray-300:   #D1D5DB;
+            --gray-400:   #9CA3AF;
+            --gray-500:   #6B7280;
+            --gray-600:   #4B5563;
+            --dark-text:  #0A0A0A;
+            --accent:     #E5E7EB;
+            --whatsapp:   #25D366;
+            --radius-sm:  8px;
+            --radius-md:  16px;
+            --radius-lg:  24px;
+            --radius-pill:9999px;
+            --shadow-md:  0 8px 24px rgba(0,0,0,0.5);
+            --shadow-lg:  0 20px 60px rgba(0,0,0,0.6);
+            --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+            --dur-fast:   150ms;
+            --dur-base:   250ms;
+            --dur-slow:   400ms;
+        }
+
+        /* ============================================================
+           RESET & BASE
+        ============================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        h1,h2,h3,h4,h5,h6 { color: var(--white); font-weight: 700; line-height: 1.15; }
+        a { text-decoration: none; color: inherit; transition: all var(--dur-base) var(--ease-out); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* ============================================================
+           SCROLL REVEAL
+        ============================================================ */
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        [data-delay="1"] { transition-delay: 0.1s; }
+        [data-delay="2"] { transition-delay: 0.2s; }
+        [data-delay="3"] { transition-delay: 0.3s; }
+        [data-delay="4"] { transition-delay: 0.4s; }
+
+        .highlight { color: var(--accent); }
+
+        /* ============================================================
+           BUTTONS
+        ============================================================ */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 15px 32px; border-radius: var(--radius-pill);
+            font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; border: none; transition: all var(--dur-base) var(--ease-out);
+            text-transform: uppercase; letter-spacing: 0.6px; position: relative; overflow: hidden;
+        }
+        .btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background var(--dur-fast); }
+        .btn:hover::after { background: rgba(255,255,255,0.08); }
+        .btn-primary { background-color: var(--white); color: var(--dark-text); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.18); }
+        .btn-nav { padding: 10px 22px; font-size: 0.82rem; }
+
+        /* ============================================================
+           BADGE
+        ============================================================ */
+        .badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            color: var(--gray-300); padding: 5px 14px; border-radius: var(--radius-pill);
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 1.2px;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .badge i { font-size: 0.95rem; color: var(--white); }
+
+        /* ============================================================
+           SECTION HEADER
+        ============================================================ */
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-label { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+        .section-header h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; letter-spacing: -0.5px; }
+        .section-header p { font-size: 1.05rem; color: var(--gray-400); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+        /* ============================================================
+           NAVBAR
+        ============================================================ */
+        .navbar {
+            position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1160px; z-index: 900;
+            border-radius: var(--radius-lg); background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--bg-border); padding: 14px 28px;
+            transition: all var(--dur-slow) var(--ease-out);
+        }
+        .navbar.scrolled { background: rgba(8,8,8,0.95); box-shadow: var(--shadow-md); border-color: rgba(255,255,255,0.10); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 42px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a:not(.btn) { color: var(--gray-400); font-weight: 500; font-size: 0.9rem; position: relative; }
+        .nav-links a:not(.btn)::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px; background: var(--white); transition: width var(--dur-base) var(--ease-out); }
+        .nav-links a:not(.btn):hover { color: var(--white); }
+        .nav-links a:not(.btn):hover::after { width: 100%; }
+        .nav-links a.active:not(.btn) { color: var(--white); }
+        .nav-links a.active:not(.btn)::after { width: 100%; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.7rem; cursor: pointer; padding: 4px; }
+
+        /* ============================================================
+           PAGE HERO
+        ============================================================ */
+        .page-hero {
+            padding: 160px 0 80px;
+            background: var(--bg-base);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            top: -80px; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 400px;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: -1.5px; margin-bottom: 16px; }
+        .page-hero p { font-size: 1.1rem; color: var(--gray-400); max-width: 520px; margin: 0 auto; font-weight: 300; line-height: 1.75; }
+
+        /* ============================================================
+           SERVICES GRID
+        ============================================================ */
+        .services { padding: 100px 0; background: var(--white); color: var(--dark-text); }
+        .services .section-header h2 { color: var(--dark-text); }
+        .services .section-label { color: var(--gray-500); }
+        .services .section-header p { color: var(--gray-600); }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+        .service-card {
+            background: var(--gray-50); padding: 36px 28px;
+            border-radius: var(--radius-md); border: 1px solid var(--gray-200);
+            cursor: default; transition: all var(--dur-slow) var(--ease-out);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        .service-card:hover { transform: translateY(-6px); border-color: var(--gray-300); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+        .icon-box {
+            width: 56px; height: 56px; background: var(--white); color: var(--dark-text);
+            border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; border: 1px solid var(--gray-200);
+            transition: all var(--dur-base) var(--ease-out); flex-shrink: 0;
+        }
+        .service-card:hover .icon-box { background: var(--dark-text); color: var(--white); border-color: var(--dark-text); }
+
+        .service-card h3 { font-size: 1.15rem; color: var(--dark-text); }
+        .service-card p { color: var(--gray-600); font-size: 0.92rem; line-height: 1.65; flex-grow: 1; }
+
+        .service-includes {
+            display: flex; flex-direction: column; gap: 8px;
+            padding-top: 16px; border-top: 1px solid var(--gray-200);
+        }
+        .service-includes span {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.84rem; color: var(--gray-600); font-weight: 500;
+        }
+        .service-includes i { color: var(--dark-text); font-size: 1rem; flex-shrink: 0; }
+
+        .service-cta {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.85rem; font-weight: 700; color: var(--dark-text);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding-top: 4px;
+            transition: gap var(--dur-base);
+        }
+        .service-card:hover .service-cta { gap: 10px; }
+
+        /* ============================================================
+           HOW IT WORKS
+        ============================================================ */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--bg-raised);
+            border-top: 1px solid var(--bg-border);
+            border-bottom: 1px solid var(--bg-border);
+        }
+
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+        .steps-grid::before {
+            content: '';
+            position: absolute; top: 32px;
+            left: calc(12.5%); right: calc(12.5%);
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent);
+        }
+        .step-item { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; }
+        .step-number {
+            width: 64px; height: 64px; border-radius: 50%;
+            background: var(--bg-card); border: 1px solid var(--bg-border-hover);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 20px; position: relative; z-index: 1;
+            transition: all var(--dur-slow) var(--ease-out); color: var(--gray-300);
+        }
+        .step-item:hover .step-number { background: var(--white); color: var(--dark-text); border-color: var(--white); transform: scale(1.08); }
+        .step-item h3 { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+        .step-item p { font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; }
+
+        /* ============================================================
+           GUARANTEE STRIP
+        ============================================================ */
+        .guarantee-strip { padding: 64px 0; background: var(--bg-base); }
+        .guarantee-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--bg-border);
+            border: 1px solid var(--bg-border); border-radius: var(--radius-lg); overflow: hidden;
+        }
+        .guarantee-item { background: var(--bg-raised); padding: 36px 32px; display: flex; align-items: flex-start; gap: 16px; transition: background var(--dur-base); }
+        .guarantee-item:hover { background: var(--bg-card); }
+        .guarantee-icon { width: 48px; height: 48px; min-width: 48px; border-radius: var(--radius-sm); background: rgba(255,255,255,0.05); border: 1px solid var(--bg-border); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--gray-200); }
+        .guarantee-text strong { display: block; font-size: 0.95rem; color: var(--white); margin-bottom: 4px; }
+        .guarantee-text p { font-size: 0.82rem; color: var(--gray-500); line-height: 1.55; }
+
+        /* ============================================================
+           CTA BANNER
+        ============================================================ */
+        .cta-banner { padding: 80px 0; background: var(--bg-raised); border-top: 1px solid var(--bg-border); border-bottom: 1px solid var(--bg-border); }
+        .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+        .cta-text h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.5px; margin-bottom: 8px; }
+        .cta-text p { color: var(--gray-400); font-size: 1rem; }
+
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        .footer { background: var(--bg-void); border-top: 1px solid var(--bg-border); padding: 80px 0 24px; color: var(--gray-400); }
+        .footer-content { display: grid; grid-template-columns: 2.2fr 1fr 1fr; gap: 52px; margin-bottom: 60px; }
+        .footer h3 { color: var(--white); font-size: 1.1rem; margin-bottom: 6px; }
+        .footer h4 { color: var(--white); font-size: 0.95rem; font-weight: 600; margin-bottom: 18px; }
+        .footer-info > p { font-size: 0.9rem; margin-bottom: 24px; color: var(--gray-500); }
+        .contact-details { display: flex; flex-direction: column; gap: 12px; }
+        .contact-details p { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--gray-500); }
+        .contact-details i { color: var(--gray-300); font-size: 1.1rem; flex-shrink: 0; }
+        .footer-links ul { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: 0.9rem; color: var(--gray-500); transition: color var(--dur-fast); }
+        .footer-links a:hover { color: var(--white); }
+        .social-icons { display: flex; gap: 10px; }
+        .social-icons a { width: 40px; height: 40px; background: var(--bg-raised); border: 1px solid var(--bg-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gray-400); font-size: 1.15rem; transition: all var(--dur-base) var(--ease-out); }
+        .social-icons a:hover { background: var(--white); color: var(--dark-text); border-color: var(--white); transform: translateY(-2px); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--bg-border); font-size: 0.82rem; color: var(--gray-600); }
+
+        /* ============================================================
+           FLOATING WHATSAPP
+        ============================================================ */
+        .floating-whatsapp { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: var(--whatsapp); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 20px rgba(37,211,102,0.45); z-index: 800; transition: all var(--dur-base) var(--ease-spring); }
+        .floating-whatsapp:hover { transform: scale(1.12); background: #1EBE5D; }
+
+        /* ============================================================
+           MOBILE MENU
+        ============================================================ */
+        @media (max-width: 900px) {
+            .nav-links { position: fixed; top: 0; right: -100%; width: 78%; max-width: 340px; height: 100vh; background: #050505; flex-direction: column; align-items: flex-start; padding: 100px 32px 32px; box-shadow: -12px 0 40px rgba(0,0,0,0.85); transition: right 0.35s var(--ease-out); z-index: 850; gap: 0; }
+            .nav-links.active { right: 0; }
+            .nav-links a:not(.btn-nav) { font-size: 1.1rem; padding: 14px 0; width: 100%; display: block; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--gray-300); }
+            .nav-links a:not(.btn-nav)::after { display: none; }
+            .btn-nav { width: 100%; margin-top: 20px; text-align: center; justify-content: center; }
+            .mobile-menu-btn { display: flex; align-items: center; }
+            .navbar { top: 0; border-radius: 0; width: 100%; left: 0; transform: none; border-left: none; border-right: none; border-top: none; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 992px) {
+            .services-grid { grid-template-columns: 1fr; max-width: 540px; margin: 0 auto; }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .steps-grid::before { display: none; }
+            .guarantee-grid { grid-template-columns: 1fr; }
+            .cta-inner { text-align: center; justify-content: center; }
+            .footer-content { grid-template-columns: 1fr; gap: 36px; }
+        }
+        @media (max-width: 600px) {
+            .steps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/seunumerodeexemplo" class="floating-whatsapp" target="_blank"
+        aria-label="Fale conosco no WhatsApp">
+        <i class="ph ph-whatsapp-logo"></i>
+    </a>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar" id="navbar">
+        <div class="nav-content container">
+            <a href="index-v2.html" class="logo" aria-label="Tech Place Store">
+                <img src="logo_techplace.svg" alt="Tech Place Store">
+            </a>
+            <nav class="nav-links" id="navLinks" aria-label="Menu principal">
+                <a href="index-v2.html">Início</a>
+                <a href="sobre.html">A Empresa</a>
+                <a href="servicos.html" class="active">Serviços</a>
+                <a href="index-v2.html#depoimentos">Avaliações</a>
+                <a href="index-v2.html#contato">Contato</a>
+                <a href="https://wa.me/seunumerodeexemplo" class="btn btn-primary btn-nav" target="_blank">
+                    Fazer Orçamento
+                </a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu" aria-expanded="false">
+                <i class="ph ph-list" id="menuIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== PAGE HERO ===== -->
+    <section class="page-hero">
+        <div class="container">
+            <span class="badge reveal" data-delay="1">
+                <i class="ph ph-wrench"></i>
+                O que fazemos
+            </span>
+            <h1 class="reveal" data-delay="2">
+                Nossos <span class="highlight">Serviços</span>
+            </h1>
+            <p class="reveal" data-delay="3">
+                Peças certificadas, técnicos especializados e garantia de 90 dias em tudo. Do diagnóstico à entrega, com rapidez e transparência.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== SERVIÇOS ===== -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Soluções completas</span>
+                <h2>Tudo que seu aparelho precisa</h2>
+                <p>Reparos precisos com peças de alta qualidade e garantia em todos os serviços.</p>
+            </div>
+            <div class="services-grid">
+
+                <div class="service-card reveal" data-delay="1">
+                    <div class="icon-box"><i class="ph ph-device-mobile"></i></div>
+                    <h3>Troca de Tela</h3>
+                    <p>Substituição profissional que devolve sensibilidade ao toque e cores originais ao seu aparelho. Telas certificadas para as principais marcas.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Tela com qualidade original</span>
+                        <span><i class="ph ph-check-circle"></i> Calibração de toque incluída</span>
+                        <span><i class="ph ph-check-circle"></i> Concluído em até 40 minutos</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Solicitar orçamento <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card reveal" data-delay="2">
+                    <div class="icon-box"><i class="ph ph-battery-charging"></i></div>
+                    <h3>Troca de Bateria</h3>
+                    <p>Bateria acabando rápido? Substituímos por uma nova com saúde original, devolvendo a autonomia que você precisa no dia a dia.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Bateria certificada</span>
+                        <span><i class="ph ph-check-circle"></i> Teste de capacidade incluso</span>
+                        <span><i class="ph ph-check-circle"></i> Garantia de 90 dias</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Solicitar orçamento <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card reveal" data-delay="3">
+                    <div class="icon-box"><i class="ph ph-plugs"></i></div>
+                    <h3>Reparo de Conector</h3>
+                    <p>Problemas para carregar ou conectar fones? Realizamos limpeza e substituição do conector com solda de alta precisão.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Limpeza e substituição</span>
+                        <span><i class="ph ph-check-circle"></i> Solda micro-eletrônica</span>
+                        <span><i class="ph ph-check-circle"></i> Teste completo após reparo</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Solicitar orçamento <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card reveal" data-delay="4">
+                    <div class="icon-box"><i class="ph ph-bug"></i></div>
+                    <h3>Software e Sistema</h3>
+                    <p>Celular travando, em loop ou com vírus? Formatamos, atualizamos o sistema operacional e recuperamos aparelhos inativos com segurança total dos dados.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Remoção de vírus</span>
+                        <span><i class="ph ph-check-circle"></i> Atualização do sistema</span>
+                        <span><i class="ph ph-check-circle"></i> Recuperação de aparelhos</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Solicitar orçamento <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card reveal" data-delay="5">
+                    <div class="icon-box"><i class="ph ph-drop-half"></i></div>
+                    <h3>Dano por Líquido</h3>
+                    <p>Celular caiu na água? Realizamos limpeza ultrassônica da placa, secagem e recuperação dos componentes afetados pelo líquido.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Limpeza ultrassônica</span>
+                        <span><i class="ph ph-check-circle"></i> Secagem profissional</span>
+                        <span><i class="ph ph-check-circle"></i> Diagnóstico sem custo</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Solicitar orçamento <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card reveal" data-delay="1">
+                    <div class="icon-box"><i class="ph ph-headphones"></i></div>
+                    <h3>Acessórios e Proteção</h3>
+                    <p>Linha completa para proteger seu aparelho: capinhas anti-impacto, películas 3D e de privacidade, carregadores turbo e fones de ouvido originais.</p>
+                    <div class="service-includes">
+                        <span><i class="ph ph-check-circle"></i> Películas e capinhas</span>
+                        <span><i class="ph ph-check-circle"></i> Carregadores originais</span>
+                        <span><i class="ph ph-check-circle"></i> Aplicação de película grátis</span>
+                    </div>
+                    <a href="https://wa.me/seunumerodeexemplo" class="service-cta" target="_blank">
+                        Ver produtos <i class="ph ph-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label" style="color:var(--gray-500)">Processo</span>
+                <h2>Como funciona?</h2>
+                <p>Do diagnóstico à entrega, um processo simples e transparente para você.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-item reveal" data-delay="1">
+                    <div class="step-number"><i class="ph ph-chat-circle-text"></i></div>
+                    <h3>1. Diagnóstico</h3>
+                    <p>Você traz o aparelho. Analisamos tudo e explicamos o problema com clareza, sem enrolação.</p>
+                </div>
+                <div class="step-item reveal" data-delay="2">
+                    <div class="step-number"><i class="ph ph-receipt"></i></div>
+                    <h3>2. Orçamento</h3>
+                    <p>Apresentamos o valor com transparência total. Só começamos com a sua aprovação.</p>
+                </div>
+                <div class="step-item reveal" data-delay="3">
+                    <div class="step-number"><i class="ph ph-wrench"></i></div>
+                    <h3>3. Reparo</h3>
+                    <p>Nossos técnicos trabalham com precisão usando peças de alta qualidade.</p>
+                </div>
+                <div class="step-item reveal" data-delay="4">
+                    <div class="step-number"><i class="ph ph-check-circle"></i></div>
+                    <h3>4. Entrega</h3>
+                    <p>Aparelho testado, limpo e com garantia. Pronto para você usar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GARANTIA ===== -->
+    <section class="guarantee-strip">
+        <div class="container">
+            <div class="guarantee-grid reveal">
+                <div class="guarantee-item">
+                    <div class="guarantee-icon"><i class="ph ph-shield-check"></i></div>
+                    <div class="guarantee-text">
+                        <strong>Garantia de 90 Dias</strong>
+                        <p>Todos os reparos cobertos. Qualquer problema, a gente resolve sem custo adicional.</p>
+                    </div>
+                </div>
+                <div class="guarantee-item">
+                    <div class="guarantee-icon"><i class="ph ph-package"></i></div>
+                    <div class="guarantee-text">
+                        <strong>Peças Certificadas</strong>
+                        <p>Utilizamos apenas componentes de alta performance com procedência garantida.</p>
+                    </div>
+                </div>
+                <div class="guarantee-item">
+                    <div class="guarantee-icon"><i class="ph ph-lock-simple"></i></div>
+                    <div class="guarantee-text">
+                        <strong>Seus Dados Protegidos</strong>
+                        <p>Nenhum dado seu é acessado durante o reparo. Privacidade total garantida.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-inner reveal">
+                <div class="cta-text">
+                    <h2>Pronto para resolver?<br><span class="highlight">Fale com a gente agora.</span></h2>
+                    <p>Descreva o problema pelo WhatsApp e receba um orçamento rápido.</p>
+                </div>
+                <a href="https://wa.me/seunumerodeexemplo" class="btn btn-primary" target="_blank"
+                    style="flex-shrink:0; font-size:1rem; padding: 18px 38px;">
+                    <i class="ph ph-whatsapp-logo"></i>
+                    Chamar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="contato" class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>Tech Place Store</h3>
+                <p>Sua referência em assistência técnica e acessórios mobile.</p>
+                <div class="contact-details">
+                    <p><i class="ph ph-map-pin"></i> Av. Tecnológica, 123 - Centro, Cidade - UF</p>
+                    <p><i class="ph ph-phone"></i> (XX) 9XXXX-XXXX</p>
+                    <p><i class="ph ph-envelope-simple"></i> contato@techplacestore.com.br</p>
+                    <p><i class="ph ph-clock"></i> Seg a Sex: 08h às 18h | Sáb: 08h às 12h</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index-v2.html">Início</a></li>
+                    <li><a href="servicos.html">Nossos Serviços</a></li>
+                    <li><a href="sobre.html">Quem Somos</a></li>
+                    <li><a href="index-v2.html#depoimentos">Avaliações</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Acompanhe-nos</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Tech Place Store. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => observer.observe(el));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+        mobileMenuBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('active');
+            menuIcon.className = isOpen ? 'ph ph-x' : 'ph ph-list';
+            mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.className = 'ph ph-list';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                navLinks.classList.remove('active');
+                menuIcon.className = 'ph ph-list';
+                document.body.style.overflow = '';
+            }
+        });
+
+    })();
+    </script>
+</body>
+</html>
