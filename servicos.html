@@ -150,6 +150,8 @@
         .nav-links a.active:not(.btn) { color: var(--white); }
         .nav-links a.active:not(.btn)::after { width: 100%; }
         .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.7rem; cursor: pointer; padding: 4px; }
+        .nav-close-btn { display: none; }
+        .menu-overlay { display: none; }
 
         /* ============================================================
            PAGE HERO
@@ -309,6 +311,10 @@
             .nav-links a:not(.btn-nav)::after { display: none; }
             .btn-nav { width: 100%; margin-top: 20px; text-align: center; justify-content: center; }
             .mobile-menu-btn { display: flex; align-items: center; }
+            .navbar .container { padding-left: 8px; padding-right: 8px; }
+            .nav-close-btn { display: flex; position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--white); font-size: 1.6rem; cursor: pointer; padding: 4px; line-height: 1; }
+            .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 840; }
+            .menu-overlay.active { display: block; }
             .navbar { top: 0; border-radius: 0; width: 100%; left: 0; transform: none; border-left: none; border-right: none; border-top: none; }
         }
 
@@ -340,15 +346,16 @@
     <!-- ===== NAVBAR ===== -->
     <header class="navbar" id="navbar">
         <div class="nav-content container">
-            <a href="index-v2.html" class="logo" aria-label="Tech Place Store">
+            <a href="index.html" class="logo" aria-label="Tech Place Store">
                 <img src="logo_techplace.svg" alt="Tech Place Store">
             </a>
             <nav class="nav-links" id="navLinks" aria-label="Menu principal">
-                <a href="index-v2.html">Início</a>
+                <button class="nav-close-btn" id="navCloseBtn" aria-label="Fechar menu"><i class="ph ph-x"></i></button>
+                <a href="index.html">Início</a>
                 <a href="sobre.html">A Empresa</a>
                 <a href="servicos.html" class="active">Serviços</a>
-                <a href="index-v2.html#depoimentos">Avaliações</a>
-                <a href="index-v2.html#contato">Contato</a>
+                <a href="index.html#depoimentos">Avaliações</a>
+                <a href="index.html#contato">Contato</a>
                 <a href="https://wa.me/seunumerodeexemplo" class="btn btn-primary btn-nav" target="_blank">
                     Fazer Orçamento
                 </a>
@@ -358,6 +365,7 @@
             </button>
         </div>
     </header>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
     <!-- ===== PAGE HERO ===== -->
     <section class="page-hero">
@@ -568,10 +576,10 @@
             <div class="footer-links">
                 <h4>Links Rápidos</h4>
                 <ul>
-                    <li><a href="index-v2.html">Início</a></li>
+                    <li><a href="index.html">Início</a></li>
                     <li><a href="servicos.html">Nossos Serviços</a></li>
                     <li><a href="sobre.html">Quem Somos</a></li>
-                    <li><a href="index-v2.html#depoimentos">Avaliações</a></li>
+                    <li><a href="index.html#depoimentos">Avaliações</a></li>
                 </ul>
             </div>
             <div class="footer-social">
@@ -613,26 +621,30 @@
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const menuIcon = document.getElementById('menuIcon');
+        const navCloseBtn = document.getElementById('navCloseBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            menuIcon.className = 'ph ph-list';
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
         mobileMenuBtn.addEventListener('click', () => {
             const isOpen = navLinks.classList.toggle('active');
+            menuOverlay.classList.toggle('active', isOpen);
             menuIcon.className = isOpen ? 'ph ph-x' : 'ph ph-list';
             mobileMenuBtn.setAttribute('aria-expanded', isOpen);
             document.body.style.overflow = isOpen ? 'hidden' : '';
         });
+        navCloseBtn.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
         navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuIcon.className = 'ph ph-list';
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            });
+            link.addEventListener('click', closeMenu);
         });
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 900) {
-                navLinks.classList.remove('active');
-                menuIcon.className = 'ph ph-list';
-                document.body.style.overflow = '';
-            }
+            if (window.innerWidth > 900) closeMenu();
         });
 
     })();

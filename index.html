@@ -318,6 +318,9 @@
         .nav-links a:not(.btn):hover { color: var(--white); }
         .nav-links a:not(.btn):hover::after { width: 100%; }
 
+        .nav-close-btn { display: none; }
+        .menu-overlay { display: none; }
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -668,7 +671,7 @@
             border-radius: var(--radius-lg);
         }
         @media (max-width: 992px) { .about-img { height: 320px; } }
-        @media (max-width: 600px) { .about-img { height: 220px; object-position: center 70%; } }
+        @media (max-width: 600px) { .about-img { height: auto; object-fit: contain; } }
 
         .about-image .image-placeholder {
             height: 460px;
@@ -1060,6 +1063,33 @@
 
             .mobile-menu-btn { display: flex; align-items: center; }
 
+            /* Logo à esquerda, burger à direita — reduz padding do container na navbar */
+            .navbar .container { padding-left: 8px; padding-right: 8px; }
+
+            /* Botão X dentro do painel */
+            .nav-close-btn {
+                display: flex;
+                position: absolute;
+                top: 20px; right: 20px;
+                background: none;
+                border: none;
+                color: var(--white);
+                font-size: 1.6rem;
+                cursor: pointer;
+                padding: 4px;
+                line-height: 1;
+            }
+
+            /* Overlay para fechar ao clicar fora */
+            .menu-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.55);
+                z-index: 840;
+            }
+            .menu-overlay.active { display: block; }
+
             /* Navbar full width on mobile */
             .navbar {
                 top: 0;
@@ -1362,6 +1392,9 @@
             </a>
 
             <nav class="nav-links" id="navLinks" aria-label="Menu principal">
+                <button class="nav-close-btn" id="navCloseBtn" aria-label="Fechar menu">
+                    <i class="ph ph-x"></i>
+                </button>
                 <a href="#home">Início</a>
                 <a href="sobre.html">A Empresa</a>
                 <a href="servicos.html">Serviços</a>
@@ -1377,6 +1410,7 @@
             </button>
         </div>
     </header>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
     <!-- ===== HERO ===== -->
     <section id="home" class="hero">
@@ -1975,22 +2009,34 @@
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         const menuIcon = document.getElementById('menuIcon');
+        const navCloseBtn = document.getElementById('navCloseBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            menuIcon.className = 'ph ph-list';
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
 
         mobileMenuBtn.addEventListener('click', () => {
             const isOpen = navLinks.classList.toggle('active');
+            menuOverlay.classList.toggle('active', isOpen);
             menuIcon.className = isOpen ? 'ph ph-x' : 'ph ph-list';
             mobileMenuBtn.setAttribute('aria-expanded', isOpen);
             document.body.style.overflow = isOpen ? 'hidden' : '';
         });
 
+        /* Botão X dentro do painel */
+        navCloseBtn.addEventListener('click', closeMenu);
+
+        /* Overlay — clique fora fecha */
+        menuOverlay.addEventListener('click', closeMenu);
+
         /* Close menu on link click */
         navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuIcon.className = 'ph ph-list';
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            });
+            link.addEventListener('click', closeMenu);
         });
 
         /* ====================================================
@@ -2016,11 +2062,7 @@
 
         /* Close on resize */
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 900) {
-                navLinks.classList.remove('active');
-                menuIcon.className = 'ph ph-list';
-                document.body.style.overflow = '';
-            }
+            if (window.innerWidth > 900) closeMenu();
         });
 
         /* ====================================================
